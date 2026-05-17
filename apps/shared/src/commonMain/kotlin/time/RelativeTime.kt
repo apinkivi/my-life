@@ -18,7 +18,11 @@ package my.life.time
 
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.number
+//import kotlinx.datetime.plus
+//import kotlinx.datetime.minus
 import kotlinx.serialization.Serializable
+import my.life.common.time.plus
+import my.life.common.time.minus
 import kotlin.jvm.JvmInline
 import my.life.time.Month.*
 import my.life.time.Quarter.*
@@ -33,8 +37,8 @@ value class Clock(val value: LocalTime) : RelativeTime {
     constructor(hour: Int = 0, minute: Int = 0) : this(LocalTime(hour, minute))
 
     override fun compareTo(other: Time) = value.compareTo((other as Clock).value)
-    override fun plus(other: TemporalAmount) = (value + (other as Duration).wrapped).wrap
-    override fun minus(other: TemporalAmount) = (value - (other as Duration).wrapped).wrap
+    override fun plus(other: TemporalAmount) = value.plus((other as Duration).wrapped).wrap
+    override fun minus(other: TemporalAmount) = value.minus((other as Duration).wrapped).wrap
     override fun toString() = value.toString()
 }
 

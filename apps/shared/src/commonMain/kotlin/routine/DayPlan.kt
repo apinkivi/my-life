@@ -1,20 +1,20 @@
 package my.life.routine
 
+import kotlinx.datetime.LocalDate
 import my.life.common.minus
-import my.life.time.Clock
-import my.life.time.Day
+import my.life.common.time.minus
+import kotlin.time.ExperimentalTime
 
-class DailyPlan(val config: Config, val day: Day) {
-    /** Activity start of the day. */
-    //TODO remove var start = config.params.dayStart
-
+@OptIn(ExperimentalTime::class)
+class DayPlan(val config: Config, val start: LocalDate) {
+    val day get() = start.dayOfWeek
     val events = mutableListOf<Event>()
 
-    fun groupStart(group: String) = events.firstOrNull { it.routine.group == group }?.time
+    fun groupStart(group: Routine.Group) = events.firstOrNull { it.routine.group == group }?.time
 
     fun routineStart(routine: String) = events.firstOrNull { it.routine.id == routine }?.time
 
-    operator fun dec() = config.weekly[day - 1]
+    operator fun dec() = config.weekly[start.dayOfWeek - 1]
 
     operator fun plus(event: Event?) = event?.let { events.add(it) }
 

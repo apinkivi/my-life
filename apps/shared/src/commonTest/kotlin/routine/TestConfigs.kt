@@ -1,6 +1,7 @@
 package my.life.routine
 
-import my.life.time.Date
+import kotlinx.datetime.LocalDate
+import my.life.routine.Routine.Group.*
 import my.life.time.Day
 import my.life.time.Day.*
 import my.life.time.Month.*
@@ -8,10 +9,10 @@ import my.life.time.hour
 import my.life.time.hours
 import my.life.time.minutes
 
-val average = configure("US", Date(1994), { man = true }) {}
+val average = configure("US", LocalDate(1994, 1, 1), { man = true }) {}
 
 @Suppress("SpellCheckingInspection")
-val jukka = configure("FI", Date(1983, 5, 4), {
+val jukka = configure("FI", LocalDate(1983, 5, 4), {
     man = true
     townHouse = true
 }) {

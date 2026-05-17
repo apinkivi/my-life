@@ -10,18 +10,21 @@ import my.life.time.Day
 import my.life.time.Time
 import my.life.time.hour
 import java.util.ResourceBundle
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+@OptIn(ExperimentalTime::class)
 class EventPrinter(val config: Config) {
     val locale = config.params.locale
     val bundle = ResourceBundle.getBundle("Routines", locale)!!
     val formatter = ClockFormatter(locale)
     val maxLength = formatter.format(11.hour).length
 
-    fun format(time: Time) = formatter.format(time as Clock).padStart(maxLength)
+    fun format(time: Instant) = formatter.format(time as Clock).padStart(maxLength)
 
     val String.local: String get() = if (bundle.containsKey(this)) bundle.getString(this) else this
 
-    fun printPlan(day: Day) = config.weekly.plan()[day].events.joinToString("\n") { it.item }
+    fun printPlan(day: Day) = config.weekly.plan()//[day].events.joinToString("\n") { it.item }
 
     val Event.item get() = "${format(time)} ${when (type) {
         Pre -> '('

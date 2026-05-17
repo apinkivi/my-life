@@ -1,12 +1,14 @@
 package my.life.routine
 
-import my.life.common.Country
-import my.life.time.Date
-import my.life.time.Day
-import my.life.time.Day.*
-import my.life.time.hour
-import my.life.time.hours
-import my.life.time.minutes
+import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.DayOfWeek.*
+import kotlinx.datetime.LocalDate
+import my.life.common.locale.Country
+import my.life.common.time.hour
+import my.life.common.time.hours
+import my.life.routine.Routine.Group.*
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 
 // Default priorities
 const val VITAL = "vital"
@@ -16,26 +18,20 @@ const val EVERYDAY = "everyday"
 const val ECONOMIC = "economic"
 const val FREE_TIME = "freeTime"
 
-// Default groups
-const val AWAKENING = "awakening"
-const val ACTIVITY = "activity"
-const val BEDTIME = "bedtime"
-const val NIGHT = "night"
-
 // Referenced routines
 const val BREAKFAST = "breakfast"
 const val WORK = "work"
 
-fun configure(location: String, birth: Date, params: Params.() -> Unit, block: Config.() -> Unit) =
+fun configure(location: String, birth: LocalDate, params: Params.() -> Unit, block: Config.() -> Unit) =
     Config(Params(Country(location), birth).apply(params)).apply {
         // Activity is the starting point of definitions
         group(ACTIVITY) {
             daily(WORK, ECONOMIC, 8.hour, 8.hours) {
-                days = Day.entries.take(5)
+                days = DayOfWeek.entries.take(5)
                 travel = 25.minutes
             }
             daily("weekend", FREE_TIME, 9.hour, 6.hours) {
-                days = Day.entries.takeLast(2)
+                days = DayOfWeek.entries.takeLast(2)
             }
         }
 
@@ -74,11 +70,11 @@ fun configure(location: String, birth: Date, params: Params.() -> Unit, block: C
             duration = 15.minutes
         }
         daily("mails.retrieved", EVERYDAY) {
-            days(Monday, Wednesday, Friday)
+            days(MONDAY, WEDNESDAY, FRIDAY)
             duration = 5.minutes
         }
         daily("mails.read", EVERYDAY) {
-            days(Monday, Wednesday, Friday)
+            days(MONDAY, WEDNESDAY, FRIDAY)
             duration = 15.minutes
         }
         daily("electricity", ECONOMIC, null, 14.hour, 2.minutes)

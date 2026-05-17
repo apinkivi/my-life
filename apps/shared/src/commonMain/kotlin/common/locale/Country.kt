@@ -1,7 +1,9 @@
-package my.life.common
+package my.life.common.locale
 
 import kotlinx.datetime.TimeZone
 import kotlinx.serialization.Serializable
+import my.life.common.mustMatch
+import my.life.common.time.Week
 import kotlin.jvm.JvmInline
 
 /** ISO 3166-1 alpha-2 */
@@ -9,20 +11,21 @@ import kotlin.jvm.JvmInline
 @Serializable
 value class Country(val code: String) {
     val defaultLanguage get() = defaultLanguages.getOrElse(code) { "en" }
-    val defaultZone get() = TimeZone.of(defaultZones.getValue(code))
+    val defaultZone get() = TimeZone.Companion.of(defaultZones.getValue(code))
+    val weekSystem get() = Week.System.of(code)
     init {
         syntax.mustMatch(code)
     }
     companion object {
         private val syntax = Regex("^[A-Z]{2}$")
         private val defaultLanguages = mapOf(
-            "FI" to "fi",
-            "SE" to "sv"
+            FINLAND to "fi",
+            SWEDEN to "sv"
         )
         private val defaultZones = mapOf(
-            "FI" to "Europe/Helsinki",
-            "SE" to "Europe/Stockholm",
-            "US" to "America/New_York"
+            FINLAND to "Europe/Helsinki",
+            SWEDEN to "Europe/Stockholm",
+            UNITED_STATES_OF_AMERICA to "America/New_York"
         )
     }
 }

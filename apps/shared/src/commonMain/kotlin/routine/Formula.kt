@@ -2,36 +2,44 @@ package my.life.routine
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import my.life.time.Day
-import my.life.time.Time
-import my.life.time.hour
-import my.life.time.minutes
+//import kotlinx.datetime.minus
 import kotlin.jvm.JvmInline
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+@Deprecated("Replaced by fixed property")
 @Serializable
+@OptIn(ExperimentalTime::class)
 sealed interface TimeFormula {
-    fun count(config: Config, daily: DailyPlan): Time
+    fun count(config: Config, daily: DayPlan): Instant
 }
 
+@Deprecated("Replaced by fixed property")
 @Serializable
 @SerialName("fixed")
 @JvmInline
-value class FixedTime(val time: Time): TimeFormula {
-    override fun count(config: Config, daily: DailyPlan) = time
+@OptIn(ExperimentalTime::class)
+value class FixedTime(val time: Instant): TimeFormula {
+    override fun count(config: Config, daily: DayPlan) = time
 }
 
+@Deprecated("Replaced by fixed property")
 @Serializable
 @SerialName("beforeGroup")
 @JvmInline
+@OptIn(ExperimentalTime::class)
 value class BeforeGroup(val group: String) : TimeFormula {
-    override fun count(config: Config, daily: DailyPlan) = (daily.groupStart(group)
-        ?: throw NoSuchElementException("${daily.day} doesn't have '$group' group!")) - 1.minutes
+    override fun count(config: Config, daily: DayPlan) = TODO()
+        /*(daily.groupStart(Routine.Group.valueOf(group))
+        ?: throw NoSuchElementException("${daily.day} doesn't have '$group' group!")).minus(1.minutes.toDateTimePeriod())*/
 }
 
+@Deprecated("Replaced by fixed property")
 @Serializable
 @SerialName("beforeRoutine")
 @JvmInline
+@OptIn(ExperimentalTime::class)
 value class BeforeRoutine(val routine: String) : TimeFormula {
-    override fun count(config: Config, daily: DailyPlan) = (daily.routineStart(routine)
-        ?: throw NoSuchElementException("${daily.day} doesn't have '$routine' routine!")) - 1.minutes
+    override fun count(config: Config, daily: DayPlan) = TODO()/*(daily.routineStart(routine)
+        ?: throw NoSuchElementException("${daily.day} doesn't have '$routine' routine!")) - 1.minutes.toDateTimePeriod()*/
 }
