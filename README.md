@@ -1,6 +1,6 @@
 # My life
 
-The goal is to build a personal AI assistant to help everyday life using Domain-Driven Design.
+This public project's goal is to build a personal AI assistant to help everyday life using Domain-Driven Design.
 
 ## Structure
 
