@@ -7,9 +7,11 @@ The goal is to build a personal AI assistant to help everyday life using Domain-
 - `app` Applications
   - `firebase` Firebase project and Single-Page Application
     - `functions` Cloud Functions project
+      - [x] Syncronize Tasks using Google Tasks API
+  - [ ] Chrome extension to manage recurring tasks on Google Tasks
 - `context` [Bounded Contexts](context/package.md)
-  - `task` [Task Management](context/task/package.md)
-  - `calendar` [Calendar Management](context/calendar/package.md)
+  - [x] `task` [Task Management](context/task/package.md)
+  - [ ] `calendar` [Calendar Management](context/calendar/package.md)
 - `lib` Library projects
 
 ## Guidlines
